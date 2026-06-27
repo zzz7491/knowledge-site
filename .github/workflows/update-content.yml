@@ -25,6 +25,8 @@ jobs:
           pip install requests
 
       - name: 运行抓取脚本
+        env:
+          DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
         run: |
           python scripts/fetch_tech_news.py
 
