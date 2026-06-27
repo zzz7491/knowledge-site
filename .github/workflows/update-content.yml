@@ -1,38 +1,53 @@
-name: 自动更新内容
+name: 每日自动更新
 
 on:
   schedule:
-    - cron: '0 2 * * *'  # 每天凌晨2点运行
-  workflow_dispatch:      # 允许手动触发
+    - cron: '0 2 * * *'   # 每天凌晨 2 点（UTC）运行，即北京时间上午 10 点
+  workflow_dispatch:       # 允许你手动触发运行
 
 jobs:
   update:
     runs-on: ubuntu-latest
-    
     steps:
       - name: 拉取代码
         uses: actions/checkout@v4
-        
+
       - name: 设置 Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          
+
       - name: 安装依赖
         run: npm install
-        
-      - name: 生成新内容（示例）
+
+      - name: 生成每日更新内容
         run: |
-          echo "---" > docs/自动生成/$(date +%Y-%m-%d).md
-          echo "title: 每日更新 $(date +%Y-%m-%d)" >> docs/自动生成/$(date +%Y-%m-%d).md
-          echo "---" >> docs/自动生成/$(date +%Y-%m-%d).md
-          echo "" >> docs/自动生成/$(date +%Y-%m-%d).md
-          echo "今日自动生成的内容。" >> docs/自动生成/$(date +%Y-%m-%d).md
+          # 获取当前日期
+          DATE=$(date +'%Y-%m-%d')
+          FILE_PATH="docs/每日更新/${DATE}.md"
           
-      - name: 提交并推送
+          # 创建 Markdown 文件
+          echo "---" > $FILE_PATH
+          echo "title: 每日更新 ${DATE}" >> $FILE_PATH
+          echo "sidebar_position: 1" >> $FILE_PATH
+          echo "---" >> $FILE_PATH
+          echo "" >> $FILE_PATH
+          echo "# 📅 每日更新 - ${DATE}" >> $FILE_PATH
+          echo "" >> $FILE_PATH
+          echo "这里是每日自动生成的知识内容。你可以修改此工作流来集成 AI 或 API 抓取逻辑。" >> $FILE_PATH
+          echo "" >> $FILE_PATH
+          echo "## 今日内容" >> $FILE_PATH
+          echo "- 示例知识点 1" >> $FILE_PATH
+          echo "- 示例知识点 2" >> $FILE_PATH
+          echo "- 示例知识点 3" >> $FILE_PATH
+          echo "" >> $FILE_PATH
+          echo "---" >> $FILE_PATH
+          echo "> 此内容由 GitHub Actions 于 $(date) 自动生成" >> $FILE_PATH
+
+      - name: 提交并推送更新
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -m "自动更新内容 $(date +%Y-%m-%d)" || echo "无变化"
+          git add docs/每日更新/
+          git commit -m "📝 自动更新每日内容 ${DATE}" || echo "没有新内容需要提交"
           git push
