@@ -25,6 +25,11 @@
               "sidebar": "mainSidebar"
             },
             {
+              "id": "每日更新/2026-06-27",
+              "path": "/docs/每日更新/2026-06-27",
+              "sidebar": "mainSidebar"
+            },
+            {
               "id": "dev-guides/ai-dev-paradigm",
               "path": "/docs/dev-guides/ai-dev-paradigm"
             },

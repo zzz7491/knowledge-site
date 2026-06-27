@@ -14,6 +14,7 @@ export default {
   "5e95c892": [() => import(/* webpackChunkName: "5e95c892" */ "@theme/DocsRoot"), "@theme/DocsRoot", require.resolveWeak("@theme/DocsRoot")],
   "5e9f5e1a": [() => import(/* webpackChunkName: "5e9f5e1a" */ "@generated/docusaurus.config"), "@generated/docusaurus.config", require.resolveWeak("@generated/docusaurus.config")],
   "65ba934e": [() => import(/* webpackChunkName: "65ba934e" */ "@site/docs/paid-knowledge/first-article.md"), "@site/docs/paid-knowledge/first-article.md", require.resolveWeak("@site/docs/paid-knowledge/first-article.md")],
+  "677eb57c": [() => import(/* webpackChunkName: "677eb57c" */ "@site/docs/每日更新/2026-06-27.md"), "@site/docs/每日更新/2026-06-27.md", require.resolveWeak("@site/docs/每日更新/2026-06-27.md")],
   "6dae3b26": [() => import(/* webpackChunkName: "6dae3b26" */ "@site/docs/测试下载.md"), "@site/docs/测试下载.md", require.resolveWeak("@site/docs/测试下载.md")],
   "8b48892d": [() => import(/* webpackChunkName: "8b48892d" */ "@site/docs/tutorial-basics/deploy-your-site.mdx"), "@site/docs/tutorial-basics/deploy-your-site.mdx", require.resolveWeak("@site/docs/tutorial-basics/deploy-your-site.mdx")],
   "9c7bae6e": [() => import(/* webpackChunkName: "9c7bae6e" */ "@site/docs/paid-knowledge/future-tech.md"), "@site/docs/paid-knowledge/future-tech.md", require.resolveWeak("@site/docs/paid-knowledge/future-tech.md")],

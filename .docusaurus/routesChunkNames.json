@@ -20,17 +20,17 @@
     },
     "content": "4c678320"
   },
-  "/docs-15f": {
+  "/docs-430": {
     "__comp": "5e95c892",
     "__context": {
       "plugin": "aba21aa0"
     }
   },
-  "/docs-1f4": {
+  "/docs-fb1": {
     "__comp": "a7bd4aaa",
     "__props": "0058b4c6"
   },
-  "/docs-b9b": {
+  "/docs-7d2": {
     "__comp": "a94703ab"
   },
   "/docs/测试下载-c57": {
@@ -44,6 +44,10 @@
   "/docs/技术指南/入门教程-213": {
     "__comp": "17896441",
     "content": "de934bb1"
+  },
+  "/docs/每日更新/2026-06-27-74f": {
+    "__comp": "17896441",
+    "content": "677eb57c"
   },
   "/docs/dev-guides/ai-dev-paradigm-416": {
     "__comp": "17896441",

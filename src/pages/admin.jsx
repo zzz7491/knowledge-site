@@ -13,7 +13,7 @@ export default function Admin() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    if (password === 'admin123') {
+    if (password === 'Aa32551963@') {
       setAuthenticated(true);
     } else {
       alert('密码错误');

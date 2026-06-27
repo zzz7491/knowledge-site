@@ -1,0 +1,24 @@
+{
+  "id": "每日更新/2026-06-27",
+  "title": "每日更新 2026-06-27",
+  "description": "这是自动生成的内容。",
+  "source": "@site/docs/每日更新/2026-06-27.md",
+  "sourceDirName": "每日更新",
+  "slug": "/每日更新/2026-06-27",
+  "permalink": "/docs/每日更新/2026-06-27",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/lsv3255/knowledge-site/tree/main/docs/每日更新/2026-06-27.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "title": "每日更新 2026-06-27",
+    "sidebar_position": 1
+  },
+  "sidebar": "mainSidebar",
+  "previous": {
+    "title": "入门教程",
+    "permalink": "/docs/技术指南/入门教程"
+  }
+}

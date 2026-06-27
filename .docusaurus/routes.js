@@ -19,15 +19,15 @@ export default [
   },
   {
     path: '/docs',
-    component: ComponentCreator('/docs', '15f'),
+    component: ComponentCreator('/docs', '430'),
     routes: [
       {
         path: '/docs',
-        component: ComponentCreator('/docs', '1f4'),
+        component: ComponentCreator('/docs', 'fb1'),
         routes: [
           {
             path: '/docs',
-            component: ComponentCreator('/docs', 'b9b'),
+            component: ComponentCreator('/docs', '7d2'),
             routes: [
               {
                 path: '/docs/测试下载',
@@ -43,6 +43,12 @@ export default [
               {
                 path: '/docs/技术指南/入门教程',
                 component: ComponentCreator('/docs/技术指南/入门教程', '213'),
+                exact: true,
+                sidebar: "mainSidebar"
+              },
+              {
+                path: '/docs/每日更新/2026-06-27',
+                component: ComponentCreator('/docs/每日更新/2026-06-27', '74f'),
                 exact: true,
                 sidebar: "mainSidebar"
               },

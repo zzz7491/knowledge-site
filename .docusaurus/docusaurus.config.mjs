@@ -11,7 +11,7 @@ export default {
   "baseUrl": "/",
   "organizationName": "lsv3255",
   "projectName": "knowledge-site",
-  "onBrokenLinks": "throw",
+  "onBrokenLinks": "warn",
   "i18n": {
     "defaultLocale": "zh-Hans",
     "locales": [
@@ -70,12 +70,12 @@ export default {
           "title": "知识库",
           "items": [
             {
-              "label": "付费知识",
-              "to": "/docs/付费知识"
+              "label": "网站介绍",
+              "to": "/docs/intro"
             },
             {
-              "label": "技术指南",
-              "to": "/docs/技术指南"
+              "label": "每日更新",
+              "to": "/docs/每日更新/2026-06-27"
             }
           ]
         },
@@ -84,7 +84,7 @@ export default {
           "items": [
             {
               "label": "GitHub",
-              "href": "https://github.com/lsv3255"
+              "href": "https://github.com/zzz7491"
             }
           ]
         }
