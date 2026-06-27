@@ -1,0 +1,11 @@
+name = "knowledge-site"
+pages_build_output_dir = "build"
+
+[[r2_buckets]]
+binding = "MY_R2_BUCKET"
+bucket_name = "knowledge-assets"
+
+[[d1_databases]]
+binding = "knowledge_metadata"
+database_name = "knowledge-metadata"
+database_id = "b4ece169-fed9-497d-90e8-7ea9fe89db69"
