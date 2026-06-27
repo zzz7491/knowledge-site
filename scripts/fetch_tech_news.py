@@ -348,12 +348,21 @@ def main():
     
     docs_dir = Path('docs/每日更新')
     docs_dir.mkdir(parents=True, exist_ok=True)
-    file_path = docs_dir / f'{date_str}-快报.md'
-    with open(file_path, 'w', encoding='utf-8') as f:
+    
+    # 生成当天文件
+    today_file = docs_dir / f'{date_str}-快报.md'
+    with open(today_file, 'w', encoding='utf-8') as f:
         f.write(md_content)
     
-    print(f"✅ 已生成: {file_path}")
+    # 滚动更新：只保留最近2个快报文件
+    all_files = sorted(docs_dir.glob('*-快报.md'), reverse=True)
+    for old_file in all_files[2:]:
+        old_file.unlink()
+        print(f"🗑️ 已删除旧文件: {old_file.name}")
+    
+    print(f"✅ 已生成: {today_file}")
     print(f"📊 共 {len(all_articles)} 篇文章")
+    print(f"📁 当前保留 {len(docs_dir.glob('*-快报.md'))} 个快报文件")
 
 if __name__ == '__main__':
     main()
