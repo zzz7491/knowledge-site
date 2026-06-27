@@ -254,7 +254,6 @@ tags: [科技, AI, 前沿, 每日更新]
 > 📅 每日更新 | 每6小时刷新
 
 ---
-
 """
     sources = {}
     for article in articles:
@@ -362,7 +361,10 @@ def main():
     
     print(f"✅ 已生成: {today_file}")
     print(f"📊 共 {len(all_articles)} 篇文章")
-    print(f"📁 当前保留 {len(docs_dir.glob('*-快报.md'))} 个快报文件")
+    
+    # 获取保留文件数量
+    remaining_files = list(docs_dir.glob('*-快报.md'))
+    print(f"📁 当前保留 {len(remaining_files)} 个快报文件")
 
 if __name__ == '__main__':
     main()
