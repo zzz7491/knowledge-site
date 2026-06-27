@@ -10,9 +10,10 @@ import re
 from pathlib import Path
 from urllib.parse import urlparse
 
-# 配置
-AI_API_URL = os.environ.get('AI_API_URL', 'http://585351.xyz:34567')
-AI_MODEL = 'glm-4-9b'
+# 配置 - 阿里云百炼平台
+AI_API_URL = "https://ws-n29fiz9196oqjon0.cn-beijing.maas.aliyuncs.com/api/v1/services/aigc/text-generation/generation"
+AI_MODEL = "qwen-turbo"
+DASHSCOPE_API_KEY = os.environ.get('DASHSCOPE_API_KEY', '')
 
 HACKER_NEWS_URL = "https://hacker-news.firebaseio.com/v0/topstories.json"
 HN_ITEM_URL = "https://hacker-news.firebaseio.com/v0/item/{}.json"
@@ -116,8 +117,12 @@ def fetch_article_content(url):
     return ''
 
 def ai_translate_and_summarize(articles):
-    """调用 AI 翻译并生成中文摘要"""
+    """调用阿里云百炼平台翻译并生成中文摘要"""
     if not articles:
+        return articles
+    
+    if not DASHSCOPE_API_KEY:
+        print("❌ 错误: 未设置 DASHSCOPE_API_KEY 环境变量")
         return articles
     
     prompt = """你是一个资深科技编辑，精通中英文。请将以下科技资讯翻译成通顺流畅的中文，并生成专业的中文摘要。
@@ -163,25 +168,44 @@ def ai_translate_and_summarize(articles):
 注意：所有输出必须使用中文，标题要翻得准确，摘要要翻得流畅专业。"""
     
     try:
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': f'Bearer {DASHSCOPE_API_KEY}'
+        }
+        
         payload = {
             "model": AI_MODEL,
-            "prompt": prompt,
-            "stream": False,
-            "temperature": 0.3,
-            "max_tokens": 4000,
-            "system": "你是一个专业的科技编辑，擅长中英互译和科技内容摘要。只输出中文，确保翻译准确、表达流畅。"
+            "input": {
+                "messages": [
+                    {"role": "system", "content": "你是一个专业的科技编辑，擅长中英互译和科技内容摘要。只输出中文，确保翻译准确、表达流畅。"},
+                    {"role": "user", "content": prompt}
+                ]
+            },
+            "parameters": {
+                "temperature": 0.3,
+                "max_tokens": 4000
+            }
         }
+        
         response = requests.post(
-            f"{AI_API_URL}/api/generate",
+            AI_API_URL,
             json=payload,
+            headers=headers,
             timeout=180
         )
+        
         if response.status_code == 200:
             result = response.json()
-            ai_output = result.get('response', '')
+            if 'output' in result and 'text' in result['output']:
+                ai_output = result['output']['text']
+            elif 'choices' in result and len(result['choices']) > 0:
+                ai_output = result['choices'][0]['message']['content']
+            else:
+                print(f"未知的API响应格式: {result}")
+                return articles
+            
             print(f"AI 响应长度: {len(ai_output)} 字符")
             
-            # 解析 AI 输出
             lines = ai_output.strip().split('\n')
             current_idx = -1
             for line in lines:
@@ -189,11 +213,9 @@ def ai_translate_and_summarize(articles):
                 if not line:
                     continue
                 
-                # 匹配 "文章X:" 或 "文章 X:"
                 match = re.match(r'^文章\s*(\d+)[:：]', line)
                 if match:
                     current_idx = int(match.group(1)) - 1
-                    # 提取标题（同一行剩余部分）
                     title_part = line.replace(match.group(0), '').strip()
                     if title_part and 0 <= current_idx < len(articles):
                         if '标题' in title_part:
@@ -210,7 +232,9 @@ def ai_translate_and_summarize(articles):
                     elif line.startswith('关键信息') or line.startswith('关键信息:'):
                         articles[current_idx]['ai_keypoints'] = line.replace('关键信息:', '').replace('关键信息：', '').strip()
         else:
-            print(f"AI API 调用失败: {response.status_code}")
+            print(f"阿里云API调用失败: {response.status_code}")
+            print(f"响应内容: {response.text}")
+            
     except Exception as e:
         print(f"AI 调用错误: {e}")
     
@@ -229,7 +253,6 @@ tags: [科技, AI, 前沿, 每日更新]
 > 🤖 由 AI 自动抓取并生成中文摘要，每6小时更新一次
 
 """
-    # 按来源分组
     sources = {}
     for article in articles:
         source = article.get('source', '其他')
@@ -268,9 +291,12 @@ tags: [科技, AI, 前沿, 每日更新]
 
 def main():
     print("🚀 开始抓取科技资讯...")
-    print(f"🤖 AI API: {AI_API_URL}")
+    print(f"🤖 AI: 阿里云通义千问 ({AI_MODEL})")
     
-    # 获取所有来源
+    if not DASHSCOPE_API_KEY:
+        print("❌ 错误: 请设置 DASHSCOPE_API_KEY 环境变量")
+        return
+    
     all_articles = []
     hn_articles = fetch_hacker_news()
     print(f"✅ Hacker News: {len(hn_articles)} 条")
@@ -288,17 +314,14 @@ def main():
         print("⚠️ 没有抓取到任何文章")
         return
     
-    # AI 翻译和摘要
-    print(f"🧠 正在调用 AI 翻译并生成摘要 ({len(all_articles)} 篇)...")
+    print(f"🧠 正在调用阿里云通义千问翻译并生成摘要 ({len(all_articles)} 篇)...")
     all_articles = ai_translate_and_summarize(all_articles)
     ai_count = sum(1 for a in all_articles if a.get('ai_summary'))
     print(f"✅ AI 生成摘要: {ai_count}/{len(all_articles)} 篇")
     
-    # 生成 Markdown
     date_str = datetime.datetime.now().strftime('%Y-%m-%d')
     md_content = generate_markdown(all_articles, date_str)
     
-    # 保存文件
     docs_dir = Path('docs/每日更新')
     docs_dir.mkdir(parents=True, exist_ok=True)
     file_path = docs_dir / f'{date_str}-快报.md'
