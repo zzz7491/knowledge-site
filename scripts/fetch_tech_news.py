@@ -31,7 +31,6 @@ def fetch_hacker_news():
                 if item_resp.status_code == 200:
                     item = item_resp.json()
                     if item and 'title' in item:
-                        # 获取文章内容
                         url = item.get('url', f"https://news.ycombinator.com/item?id={sid}")
                         content = fetch_article_content(url) if url else ''
                         articles.append({
@@ -39,7 +38,7 @@ def fetch_hacker_news():
                             'url': url,
                             'score': item.get('score', 0),
                             'source': 'Hacker News',
-                            'content': content[:3000] if content else '',
+                            'content': content[:2000] if content else '',
                             'text': item.get('text', '')[:500]
                         })
             return articles
@@ -90,7 +89,7 @@ def fetch_techcrunch():
                     'url': url,
                     'source': 'TechCrunch',
                     'score': 0,
-                    'content': content[:3000] if content else '',
+                    'content': content[:2000] if content else '',
                     'text': post.get('excerpt', {}).get('rendered', '')[:300]
                 })
             return articles
@@ -103,17 +102,15 @@ def fetch_article_content(url):
     if not url:
         return ''
     try:
-        # 使用 requests 获取 HTML
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         }
         resp = requests.get(url, timeout=15, headers=headers)
         if resp.status_code == 200:
-            # 简单提取文本（去除 HTML 标签）
             import re
             text = re.sub(r'<[^>]+>', ' ', resp.text)
             text = re.sub(r'\s+', ' ', text).strip()
-            return text[:3000]
+            return text[:2000]
     except Exception as e:
         print(f"抓取内容失败 {url}: {e}")
     return ''
@@ -123,35 +120,56 @@ def ai_translate_and_summarize(articles):
     if not articles:
         return articles
     
-    # 构建提示词
-    prompt = "你是一个科技新闻编辑。请将以下科技资讯翻译成中文，并为每篇文章生成精炼的摘要（50-80字），突出核心价值：\n\n"
+    prompt = """你是一个资深科技编辑，精通中英文。请将以下科技资讯翻译成通顺流畅的中文，并生成专业的中文摘要。
+
+要求：
+1. 标题翻译要准确、简洁、吸引人
+2. 摘要控制在50-80字，要包含核心观点
+3. 必须用专业、流畅的中文表达
+4. 不要直译，要意译成符合中文阅读习惯的表达
+
+以下是待处理的文章：
+
+"""
     for i, article in enumerate(articles):
-        prompt += f"{i+1}. 标题: {article['title']}\n"
-        prompt += f"   来源: {article['source']}\n"
+        prompt += f"\n文章 {i+1}:\n"
+        prompt += f"标题: {article['title']}\n"
+        prompt += f"来源: {article['source']}\n"
         if article.get('content'):
-            prompt += f"   内容: {article['content'][:800]}\n"
+            prompt += f"内容: {article['content'][:1000]}\n"
         elif article.get('summary'):
-            prompt += f"   摘要: {article['summary']}\n"
+            prompt += f"摘要: {article['summary']}\n"
         elif article.get('text'):
-            prompt += f"   描述: {article['text']}\n"
+            prompt += f"描述: {article['text']}\n"
         prompt += "\n"
     
-    prompt += """请按以下格式返回（每篇文章用空行分隔）：
-    
-[文章编号]. 中文标题: xxx
-中文摘要: xxx
-核心价值: xxx
-关键要点: xxx
+    prompt += """
+请按以下格式返回（每篇文章用空行分隔，全部用中文）：
 
-注意：直接用中文输出，不要用英文。"""
+文章1:
+标题: [准确的中文标题]
+摘要: [50-80字的中文摘要]
+核心观点: [一句话概括核心价值]
+关键信息: [3-5个关键词]
+
+文章2:
+标题: [准确的中文标题]
+摘要: [50-80字的中文摘要]
+核心观点: [一句话概括核心价值]
+关键信息: [3-5个关键词]
+
+...以此类推
+
+注意：所有输出必须使用中文，标题要翻得准确，摘要要翻得流畅专业。"""
     
     try:
         payload = {
             "model": AI_MODEL,
             "prompt": prompt,
             "stream": False,
-            "temperature": 0.5,
-            "max_tokens": 4000
+            "temperature": 0.3,
+            "max_tokens": 4000,
+            "system": "你是一个专业的科技编辑，擅长中英互译和科技内容摘要。只输出中文，确保翻译准确、表达流畅。"
         }
         response = requests.post(
             f"{AI_API_URL}/api/generate",
@@ -165,31 +183,32 @@ def ai_translate_and_summarize(articles):
             
             # 解析 AI 输出
             lines = ai_output.strip().split('\n')
-            current_idx = 0
+            current_idx = -1
             for line in lines:
                 line = line.strip()
                 if not line:
                     continue
-                # 匹配 [编号] 或 编号.
-                match = re.match(r'^(\d+)\.?\s*', line)
+                
+                # 匹配 "文章X:" 或 "文章 X:"
+                match = re.match(r'^文章\s*(\d+)[:：]', line)
                 if match:
-                    idx = int(match.group(1)) - 1
-                    if 0 <= idx < len(articles):
-                        articles[idx]['ai_title'] = line.replace(match.group(0), '').strip()
-                elif line.startswith('中文摘要:') or line.startswith('中文摘要：'):
-                    if current_idx < len(articles):
-                        articles[current_idx]['ai_summary'] = line.replace('中文摘要:', '').replace('中文摘要：', '').strip()
-                elif line.startswith('核心价值:') or line.startswith('核心价值：'):
-                    if current_idx < len(articles):
-                        articles[current_idx]['ai_value'] = line.replace('核心价值:', '').replace('核心价值：', '').strip()
-                elif line.startswith('关键要点:') or line.startswith('关键要点：'):
-                    if current_idx < len(articles):
-                        articles[current_idx]['ai_keypoints'] = line.replace('关键要点:', '').replace('关键要点：', '').strip()
-                elif re.match(r'^\d+', line):
-                    # 新文章开始
-                    match2 = re.match(r'^(\d+)', line)
-                    if match2:
-                        current_idx = int(match2.group(1)) - 1
+                    current_idx = int(match.group(1)) - 1
+                    # 提取标题（同一行剩余部分）
+                    title_part = line.replace(match.group(0), '').strip()
+                    if title_part and 0 <= current_idx < len(articles):
+                        if '标题' in title_part:
+                            articles[current_idx]['ai_title'] = title_part.replace('标题:', '').replace('标题：', '').strip()
+                    continue
+                
+                if 0 <= current_idx < len(articles):
+                    if line.startswith('标题') or line.startswith('标题:'):
+                        articles[current_idx]['ai_title'] = line.replace('标题:', '').replace('标题：', '').strip()
+                    elif line.startswith('摘要') or line.startswith('摘要:'):
+                        articles[current_idx]['ai_summary'] = line.replace('摘要:', '').replace('摘要：', '').strip()
+                    elif line.startswith('核心观点') or line.startswith('核心观点:'):
+                        articles[current_idx]['ai_value'] = line.replace('核心观点:', '').replace('核心观点：', '').strip()
+                    elif line.startswith('关键信息') or line.startswith('关键信息:'):
+                        articles[current_idx]['ai_keypoints'] = line.replace('关键信息:', '').replace('关键信息：', '').strip()
         else:
             print(f"AI API 调用失败: {response.status_code}")
     except Exception as e:
@@ -233,10 +252,10 @@ tags: [科技, AI, 前沿, 每日更新]
                 content += f"📝 **摘要**：{item.get('summary')}\n\n"
             
             if item.get('ai_value'):
-                content += f"💡 **核心价值**：{item.get('ai_value')}\n\n"
+                content += f"💡 **核心观点**：{item.get('ai_value')}\n\n"
             
             if item.get('ai_keypoints'):
-                content += f"📌 **关键要点**：{item.get('ai_keypoints')}\n\n"
+                content += f"📌 **关键信息**：{item.get('ai_keypoints')}\n\n"
             
             if item.get('score'):
                 content += f"🔥 **热度**：{item.get('score')}\n\n"
