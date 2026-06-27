@@ -37,3 +37,19 @@ jobs:
           git add docs/每日更新/
           git commit -m "🤖 自动抓取科技前沿 $(date +'%Y-%m-%d %H:%M')" || echo "无变化"
           git push
+
+      - name: 发送飞书通知
+        env:
+          FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
+        run: |
+          CURRENT_TIME=$(date +'%Y-%m-%d %H:%M:%S')
+          LATEST_FILE=$(ls -t docs/每日更新/*-快报.md | head -1)
+          FILE_NAME=$(basename "$LATEST_FILE")
+          ARTICLE_COUNT=$(grep -E "共抓取.*篇" "$LATEST_FILE" | grep -oE '[0-9]+' | head -1)
+          if [ -z "$ARTICLE_COUNT" ]; then
+            ARTICLE_COUNT="若干"
+          fi
+          MESSAGE="🚀 东诚AI快报更新啦！\n📅 时间：${CURRENT_TIME}\n📄 文件：${FILE_NAME}\n📊 文章：${ARTICLE_COUNT} 篇\n🔗 查看：https://aidongcheng.com/docs/每日更新/${FILE_NAME%.md}"
+          curl -X POST -H "Content-Type: application/json" \
+            -d "{\"msg_type\": \"text\", \"content\": {\"text\": \"${MESSAGE}\"}}" \
+            $FEISHU_WEBHOOK
