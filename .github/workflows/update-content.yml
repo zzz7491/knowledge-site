@@ -1,0 +1,43 @@
+name: 每日自动更新
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+
+      - name: 生成每日内容
+        run: |
+          DATE=$(date +'%Y-%m-%d')
+          mkdir -p docs/每日更新
+          cat > docs/每日更新/${DATE}.md << EOF
+          ---
+          title: 每日更新 ${DATE}
+          sidebar_position: 1
+          ---
+          
+          # 📅 每日更新 - ${DATE}
+          
+          这是自动生成的内容。
+          
+          ## 今日内容
+          - 知识点 1
+          - 知识点 2
+          - 知识点 3
+          
+          > 由 GitHub Actions 自动生成
+          EOF
+
+      - name: 提交并推送
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/每日更新/
+          git commit -m "自动更新 $(date +'%Y-%m-%d')" || echo "无变化"
+          git push
