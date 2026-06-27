@@ -241,7 +241,7 @@ def ai_translate_and_summarize(articles):
     return articles
 
 def generate_markdown(articles, date_str):
-    """生成 Markdown 内容"""
+    """生成 Markdown 内容 - 优化排版"""
     content = f"""---
 title: 科技前沿快报 {date_str}
 sidebar_position: 1
@@ -250,7 +250,10 @@ tags: [科技, AI, 前沿, 每日更新]
 
 # 🚀 科技前沿快报 - {date_str}
 
-> 🤖 由 AI 自动抓取并生成中文摘要，每6小时更新一次
+> 🤖 AI 自动精选全球科技资讯，中文摘要由通义千问生成
+> 📅 每日更新 | 每6小时刷新
+
+---
 
 """
     sources = {}
@@ -261,32 +264,53 @@ tags: [科技, AI, 前沿, 每日更新]
         sources[source].append(article)
     
     for source, items in sources.items():
-        content += f"\n## 📡 {source}\n\n"
+        icons = {
+            'Hacker News': '💬',
+            'arXiv AI': '📄',
+            'TechCrunch': '📰'
+        }
+        icon = icons.get(source, '📌')
+        content += f"\n## {icon} {source}\n\n"
+        content += f"共 {len(items)} 条\n\n"
+        
         for idx, item in enumerate(items, 1):
             title = item.get('ai_title') or item.get('title', '').strip()
             url = item.get('url', '#')
             
-            content += f"### {idx}. {title}\n\n"
-            content += f"🔗 [原文链接]({url})\n\n"
+            score_tag = ''
+            if item.get('score'):
+                score = item.get('score')
+                if score > 500:
+                    score_tag = ' 🔥🔥🔥'
+                elif score > 200:
+                    score_tag = ' 🔥🔥'
+                elif score > 50:
+                    score_tag = ' 🔥'
+                score_tag += f' 热度: {score}'
+            
+            content += f"### {idx}. {title}{score_tag}\n\n"
             
             if item.get('ai_summary'):
-                content += f"📝 **摘要**：{item.get('ai_summary')}\n\n"
+                content += f"> {item.get('ai_summary')}\n\n"
             elif item.get('summary'):
-                content += f"📝 **摘要**：{item.get('summary')}\n\n"
+                content += f"> {item.get('summary')}\n\n"
             
-            if item.get('ai_value'):
-                content += f"💡 **核心观点**：{item.get('ai_value')}\n\n"
+            if item.get('ai_value') or item.get('ai_keypoints'):
+                content += "**💡 核心观点**\n\n"
+                if item.get('ai_value'):
+                    content += f"- {item.get('ai_value')}\n"
+                if item.get('ai_keypoints'):
+                    content += f"- **关键信息**：{item.get('ai_keypoints')}\n"
+                content += "\n"
             
-            if item.get('ai_keypoints'):
-                content += f"📌 **关键信息**：{item.get('ai_keypoints')}\n\n"
-            
-            if item.get('score'):
-                content += f"🔥 **热度**：{item.get('score')}\n\n"
-            
+            content += f"📎 [阅读原文]({url})\n\n"
             content += "---\n\n"
     
-    content += f"\n*最后更新: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*\n"
-    content += f"*共抓取 {len(articles)} 篇科技资讯，AI 生成中文摘要*"
+    content += f"\n📊 **本次更新统计**\n"
+    content += f"- 共抓取 {len(articles)} 篇科技资讯\n"
+    content += f"- AI 生成中文摘要\n"
+    content += f"- 更新时间: {datetime.datetime.now().strftime('%Y年%m月%d日 %H:%M')}\n"
+    
     return content
 
 def main():
