@@ -1,8 +1,8 @@
-name: 每日自动更新
+name: 科技前沿自动更新
 
 on:
   schedule:
-    - cron: '0 2 * * *'
+    - cron: '0 */6 * * *'   # 每6小时运行一次
   workflow_dispatch:
 
 permissions:
@@ -12,40 +12,26 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - name: 设置 Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-
       - name: 拉取代码
         uses: actions/checkout@v4
 
-      - name: 生成每日内容
+      - name: 设置 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安装依赖
         run: |
-          DATE=$(date +'%Y-%m-%d')
-          mkdir -p docs/每日更新
-          cat > docs/每日更新/${DATE}.md << EOF
-          ---
-          title: 每日更新 ${DATE}
-          sidebar_position: 1
-          ---
-          
-          # 📅 每日更新 - ${DATE}
-          
-          这是自动生成的内容。
-          
-          ## 今日内容
-          - 知识点 1
-          - 知识点 2
-          - 知识点 3
-          
-          > 由 GitHub Actions 自动生成
-          EOF
+          pip install requests
+
+      - name: 运行抓取脚本
+        run: |
+          python scripts/fetch_tech_news.py
 
       - name: 提交并推送
         run: |
           git config user.name "github-actions[bot]"
-          git config.user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/每日更新/
-          git commit -m "自动更新 $(date +'%Y-%m-%d')" || echo "无变化"
+          git commit -m "🤖 自动抓取科技前沿 $(date +'%Y-%m-%d %H:%M')" || echo "无变化"
           git push
