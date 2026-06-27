@@ -1,0 +1,38 @@
+name: 自动更新内容
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # 每天凌晨2点运行
+  workflow_dispatch:      # 允许手动触发
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 拉取代码
+        uses: actions/checkout@v4
+        
+      - name: 设置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          
+      - name: 安装依赖
+        run: npm install
+        
+      - name: 生成新内容（示例）
+        run: |
+          echo "---" > docs/自动生成/$(date +%Y-%m-%d).md
+          echo "title: 每日更新 $(date +%Y-%m-%d)" >> docs/自动生成/$(date +%Y-%m-%d).md
+          echo "---" >> docs/自动生成/$(date +%Y-%m-%d).md
+          echo "" >> docs/自动生成/$(date +%Y-%m-%d).md
+          echo "今日自动生成的内容。" >> docs/自动生成/$(date +%Y-%m-%d).md
+          
+      - name: 提交并推送
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "自动更新内容 $(date +%Y-%m-%d)" || echo "无变化"
+          git push

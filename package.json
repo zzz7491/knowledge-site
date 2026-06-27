@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "my-website",
   "version": "0.0.0",
   "private": true,
@@ -45,5 +46,20 @@
   },
   "engines": {
     "node": ">=20.0"
+=======
+  "name": "knowledge-site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "wrangler": "^4.105.0"
+>>>>>>> f99a861042930e4e2e7b3f4cd612af65496b7de6
   }
 }
