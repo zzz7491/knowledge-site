@@ -1,0 +1,28 @@
+{
+  "id": "付费知识/示例文章",
+  "title": "示例文章",
+  "description": "这里是付费知识的内容预览。",
+  "source": "@site/docs/付费知识/示例文章.md",
+  "sourceDirName": "付费知识",
+  "slug": "/付费知识/示例文章",
+  "permalink": "/docs/付费知识/示例文章",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/lsv3255/knowledge-site/tree/main/docs/付费知识/示例文章.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "title": "示例文章",
+    "sidebar_position": 1
+  },
+  "sidebar": "mainSidebar",
+  "previous": {
+    "title": "🚀 网站介绍",
+    "permalink": "/docs/intro"
+  },
+  "next": {
+    "title": "入门教程",
+    "permalink": "/docs/技术指南/入门教程"
+  }
+}

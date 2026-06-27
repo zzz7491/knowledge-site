@@ -1,0 +1,24 @@
+{
+  "id": "intro",
+  "title": "网站介绍",
+  "description": "这里是我分享付费知识和实用技术指南的地方。",
+  "source": "@site/docs/intro.md",
+  "sourceDirName": ".",
+  "slug": "/intro",
+  "permalink": "/docs/intro",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/lsv3255/knowledge-site/tree/main/docs/intro.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "title": "网站介绍",
+    "sidebar_position": 1
+  },
+  "sidebar": "mainSidebar",
+  "next": {
+    "title": "示例文章",
+    "permalink": "/docs/付费知识/示例文章"
+  }
+}

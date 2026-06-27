@@ -1,0 +1,18 @@
+{
+  "id": "paid-knowledge/future-tech",
+  "title": "2026 技术前沿洞察",
+  "description": "现在的技术核心正在从“算力堆砌”转向“模型优化”。",
+  "source": "@site/docs/paid-knowledge/future-tech.md",
+  "sourceDirName": "paid-knowledge",
+  "slug": "/paid-knowledge/future-tech",
+  "permalink": "/docs/paid-knowledge/future-tech",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/lsv3255/knowledge-site/tree/main/docs/paid-knowledge/future-tech.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "future-tech",
+    "title": "2026 技术前沿洞察"
+  }
+}

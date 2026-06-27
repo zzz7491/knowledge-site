@@ -1,0 +1,15 @@
+{
+  "id": "dev-guides/setup-guide",
+  "title": "setup-guide",
+  "description": "没有 Hermes：一个人干 10 个人的活",
+  "source": "@site/docs/dev-guides/setup-guide.md",
+  "sourceDirName": "dev-guides",
+  "slug": "/dev-guides/setup-guide",
+  "permalink": "/docs/dev-guides/setup-guide",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/lsv3255/knowledge-site/tree/main/docs/dev-guides/setup-guide.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {}
+}

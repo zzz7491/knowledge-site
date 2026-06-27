@@ -1,0 +1,24 @@
+{
+  "id": "技术指南/入门教程",
+  "title": "入门教程",
+  "description": "这里是技术指南的内容。",
+  "source": "@site/docs/技术指南/入门教程.md",
+  "sourceDirName": "技术指南",
+  "slug": "/技术指南/入门教程",
+  "permalink": "/docs/技术指南/入门教程",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/lsv3255/knowledge-site/tree/main/docs/技术指南/入门教程.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "title": "入门教程",
+    "sidebar_position": 1
+  },
+  "sidebar": "mainSidebar",
+  "previous": {
+    "title": "示例文章",
+    "permalink": "/docs/付费知识/示例文章"
+  }
+}

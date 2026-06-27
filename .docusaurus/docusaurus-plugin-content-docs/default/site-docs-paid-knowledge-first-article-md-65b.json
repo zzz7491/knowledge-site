@@ -1,0 +1,18 @@
+{
+  "id": "paid-knowledge/first-article",
+  "title": "我的第一篇付费文章",
+  "description": "这是文章的测试内容，如果能看到这一行，说明我的内容填充系统已经完全正常工作了！",
+  "source": "@site/docs/paid-knowledge/first-article.md",
+  "sourceDirName": "paid-knowledge",
+  "slug": "/paid-knowledge/first-article",
+  "permalink": "/docs/paid-knowledge/first-article",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/lsv3255/knowledge-site/tree/main/docs/paid-knowledge/first-article.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "first-article",
+    "title": "我的第一篇付费文章"
+  }
+}

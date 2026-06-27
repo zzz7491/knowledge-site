@@ -1,0 +1,103 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/docs",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/docs",
+          "mainDocId": "intro",
+          "docs": [
+            {
+              "id": "测试下载",
+              "path": "/docs/测试下载"
+            },
+            {
+              "id": "付费知识/示例文章",
+              "path": "/docs/付费知识/示例文章",
+              "sidebar": "mainSidebar"
+            },
+            {
+              "id": "技术指南/入门教程",
+              "path": "/docs/技术指南/入门教程",
+              "sidebar": "mainSidebar"
+            },
+            {
+              "id": "dev-guides/ai-dev-paradigm",
+              "path": "/docs/dev-guides/ai-dev-paradigm"
+            },
+            {
+              "id": "dev-guides/cloudflare-setup",
+              "path": "/docs/dev-guides/cloudflare-setup"
+            },
+            {
+              "id": "dev-guides/setup-guide",
+              "path": "/docs/dev-guides/setup-guide"
+            },
+            {
+              "id": "intro",
+              "path": "/docs/intro",
+              "sidebar": "mainSidebar"
+            },
+            {
+              "id": "paid-knowledge/ai-agent-2026",
+              "path": "/docs/paid-knowledge/ai-agent-2026"
+            },
+            {
+              "id": "paid-knowledge/first-article",
+              "path": "/docs/paid-knowledge/first-article"
+            },
+            {
+              "id": "paid-knowledge/future-tech",
+              "path": "/docs/paid-knowledge/future-tech"
+            },
+            {
+              "id": "tutorial-basics/congratulations",
+              "path": "/docs/tutorial-basics/congratulations"
+            },
+            {
+              "id": "tutorial-basics/create-a-blog-post",
+              "path": "/docs/tutorial-basics/create-a-blog-post"
+            },
+            {
+              "id": "tutorial-basics/create-a-document",
+              "path": "/docs/tutorial-basics/create-a-document"
+            },
+            {
+              "id": "tutorial-basics/create-a-page",
+              "path": "/docs/tutorial-basics/create-a-page"
+            },
+            {
+              "id": "tutorial-basics/deploy-your-site",
+              "path": "/docs/tutorial-basics/deploy-your-site"
+            },
+            {
+              "id": "tutorial-basics/markdown-features",
+              "path": "/docs/tutorial-basics/markdown-features"
+            },
+            {
+              "id": "tutorial-extras/manage-docs-versions",
+              "path": "/docs/tutorial-extras/manage-docs-versions"
+            },
+            {
+              "id": "tutorial-extras/translate-your-site",
+              "path": "/docs/tutorial-extras/translate-your-site"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "mainSidebar": {
+              "link": {
+                "path": "/docs/intro",
+                "label": "🚀 网站介绍"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

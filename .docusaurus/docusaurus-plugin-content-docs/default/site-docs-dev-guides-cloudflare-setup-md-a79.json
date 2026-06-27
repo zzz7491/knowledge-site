@@ -1,0 +1,18 @@
+{
+  "id": "dev-guides/cloudflare-setup",
+  "title": "Cloudflare Pages 部署流程",
+  "description": "使用 Wrangler CLI 部署是最快的方式，不需要手动点击上传。",
+  "source": "@site/docs/dev-guides/cloudflare-setup.md",
+  "sourceDirName": "dev-guides",
+  "slug": "/dev-guides/cloudflare-setup",
+  "permalink": "/docs/dev-guides/cloudflare-setup",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/lsv3255/knowledge-site/tree/main/docs/dev-guides/cloudflare-setup.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "cloudflare-setup",
+    "title": "Cloudflare Pages 部署流程"
+  }
+}

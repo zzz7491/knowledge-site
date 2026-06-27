@@ -1,0 +1,18 @@
+{
+  "id": "dev-guides/ai-dev-paradigm",
+  "title": "AI 时代的开发新范式",
+  "description": "作为技术小白，我们正处于一个无需“死磕代码”的时代。",
+  "source": "@site/docs/dev-guides/ai-dev-paradigm.md",
+  "sourceDirName": "dev-guides",
+  "slug": "/dev-guides/ai-dev-paradigm",
+  "permalink": "/docs/dev-guides/ai-dev-paradigm",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/lsv3255/knowledge-site/tree/main/docs/dev-guides/ai-dev-paradigm.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "ai-dev-paradigm",
+    "title": "AI 时代的开发新范式"
+  }
+}

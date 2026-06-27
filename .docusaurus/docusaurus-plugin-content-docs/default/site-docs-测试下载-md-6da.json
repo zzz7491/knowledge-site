@@ -1,0 +1,17 @@
+{
+  "id": "测试下载",
+  "title": "测试下载功能",
+  "description": "点击下方按钮下载测试文件。",
+  "source": "@site/docs/测试下载.md",
+  "sourceDirName": ".",
+  "slug": "/测试下载",
+  "permalink": "/docs/测试下载",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/lsv3255/knowledge-site/tree/main/docs/测试下载.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "title": "测试下载功能"
+  }
+}

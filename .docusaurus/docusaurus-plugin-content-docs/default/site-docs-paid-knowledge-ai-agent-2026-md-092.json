@@ -1,0 +1,18 @@
+{
+  "id": "paid-knowledge/ai-agent-2026",
+  "title": "2026：从聊天机器人到 AI Agent",
+  "description": "AI 正在经历从“问答模式”到“自主执行模式”的飞跃。",
+  "source": "@site/docs/paid-knowledge/ai-agent-2026.md",
+  "sourceDirName": "paid-knowledge",
+  "slug": "/paid-knowledge/ai-agent-2026",
+  "permalink": "/docs/paid-knowledge/ai-agent-2026",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/lsv3255/knowledge-site/tree/main/docs/paid-knowledge/ai-agent-2026.md",
+  "tags": [],
+  "version": "current",
+  "frontMatter": {
+    "id": "ai-agent-2026",
+    "title": "2026：从聊天机器人到 AI Agent"
+  }
+}
