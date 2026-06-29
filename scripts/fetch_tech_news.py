@@ -250,7 +250,7 @@ tags: [科技, AI, 前沿, 每日更新]
 
 # 🚀 科技前沿快报 - {date_str}
 
-> 🤖 AI 自动精选全球科技资讯，中文摘要由通义千问生成
+> 🤖 自动精选全球科技资讯，中文摘要由通义千问生成
 > 📅 每日更新 | 每6小时刷新
 
 ---
@@ -353,9 +353,9 @@ def main():
     with open(today_file, 'w', encoding='utf-8') as f:
         f.write(md_content)
     
-    # 滚动更新：只保留最近2个快报文件
+    # 滚动更新：只保留最近7个快报文件
     all_files = sorted(docs_dir.glob('*-快报.md'), reverse=True)
-    for old_file in all_files[2:]:
+    for old_file in all_files[7:]:
         old_file.unlink()
         print(f"🗑️ 已删除旧文件: {old_file.name}")
     
