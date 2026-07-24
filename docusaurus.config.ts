@@ -4,13 +4,13 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: '我的知识库',
-  tagline: '知识付费分享平台',
+  tagline: '面向未来的科技知识库',
   favicon: 'img/favicon.ico',
 
   url: 'https://aidongcheng.com',
   baseUrl: '/',
 
-  organizationName: 'lsv3255',
+  organizationName: 'zzz7491',
   projectName: 'knowledge-site',
 
   onBrokenLinks: 'warn',
@@ -27,7 +27,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/lsv3255/knowledge-site/tree/main/',
+          editUrl: 'https://github.com/zzz7491/knowledge-site/tree/main/',
         },
         blog: false,
         theme: {
@@ -76,7 +76,7 @@ const config: Config = {
             },
             {
               label: '每日更新',
-              to: '/docs/每日更新/2026-06-27',
+              to: '/docs/每日更新/2026-07-24-快报',
             },
           ],
         },
