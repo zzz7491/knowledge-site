@@ -1,41 +1,37 @@
-# Website
+# Knowledge System
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+一个面向未来的科技知识库，使用 [Docusaurus](https://docusaurus.io/) 构建。
 
-## Installation
-
-```bash
-yarn
-```
-
-## Local Development
+## 本地开发
 
 ```bash
-yarn start
+npm ci
+npm run start
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-## Build
+## 构建检查
 
 ```bash
-yarn build
+npm run build
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+构建产物输出到 `build/`，Cloudflare Pages 的输出目录也设置为 `build`。
 
-## Deployment
+## 发布
 
-Using SSH:
+仓库包含两条自动化链路：
 
-```bash
-USE_SSH=true yarn deploy
-```
+- `科技前沿自动更新`：定时生成每日科技快报并提交到 `docs/每日更新/`。
+- `发布知识库到 Cloudflare Pages`：`main` 变化后构建站点；配置 Cloudflare 凭据后自动发布。
 
-Not using SSH:
+Cloudflare Pages 项目设置应保持以下值：
 
-```bash
-GIT_USER=<Your GitHub username> yarn deploy
-```
+- Production branch：`main`
+- Build command：`npm run build`
+- Build output directory：`build`
+- Root directory：仓库根目录
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+发布工作流需要两个 GitHub Actions Secrets：
+
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
