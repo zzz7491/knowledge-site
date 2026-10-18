@@ -19,7 +19,7 @@ OPENROUTER_API_KEY = os.environ.get('OPENROUTER_API_KEY', '')
 HACKER_NEWS_URL = "https://hacker-news.firebaseio.com/v0/topstories.json"
 HN_ITEM_URL = "https://hacker-news.firebaseio.com/v0/item/{}.json"
 ARXIV_QUERY_URL = "https://export.arxiv.org/api/query?search_query=cat:cs.AI&sortBy=submittedDate&max_results=5"
-TECHCRUNCH_URL = "https://techcrunch.com/wp-json/wp/v2/posts?categories=147&per_page=5"
+TECHCRUNCH_URL = "https://techcrunch.com/wp-json/wp/v2/posts?categories=577047203&per_page=5"
 
 def fetch_hacker_news():
     """获取 Hacker News 热门文章"""
