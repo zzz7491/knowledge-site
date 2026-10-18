@@ -49,7 +49,7 @@ jobs:
           if [ -z "$ARTICLE_COUNT" ]; then
             ARTICLE_COUNT="若干"
           fi
-          MESSAGE="🚀 东诚AI快报更新啦！\n📅 时间：${CURRENT_TIME}\n📄 文件：${FILE_NAME}\n📊 文章：${ARTICLE_COUNT} 篇\n🔗 查看：https://aidongcheng.com/docs/每日更新/${FILE_NAME%.md}"
+          MESSAGE="🚀 东诚AI快报更新啦！\n📅 时间：${CURRENT_TIME}\n📄 文件：${FILE_NAME}\n📊 文章：${ARTICLE_COUNT} 篇\n🔗 查看：https://kb.mootlsv.com/docs/每日更新/${FILE_NAME%.md}"
           curl -X POST -H "Content-Type: application/json" \
             -d "{\"msg_type\": \"text\", \"content\": {\"text\": \"${MESSAGE}\"}}" \
             $FEISHU_WEBHOOK
