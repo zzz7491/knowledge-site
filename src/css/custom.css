@@ -34,3 +34,12 @@
 .navbar { border-bottom: 1px solid rgba(20, 155, 145, .12); box-shadow: none; }
 .navbar__title { letter-spacing: -.02em; }
 .footer--dark { background: #07131f; }
+
+/* 快报与文档页移动端排版收紧（2026-10-18）：标题降档、行距与段距压缩，贴合手机阅读 */
+@media (max-width: 768px) {
+  .markdown h1 { font-size: 1.55rem; line-height: 1.3; }
+  .markdown h2 { font-size: 1.28rem; margin-top: 1.4rem; }
+  .markdown h3 { font-size: 1.08rem; line-height: 1.45; margin-top: 1.1rem; margin-bottom: 0.45rem; }
+  .markdown p { margin-bottom: 0.55rem; line-height: 1.75; }
+  .markdown blockquote { padding: 0.45rem 0.8rem; }
+}
