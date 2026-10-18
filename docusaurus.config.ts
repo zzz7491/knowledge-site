@@ -7,7 +7,7 @@ const config: Config = {
   tagline: '面向未来的科技知识库',
   favicon: 'img/favicon.ico',
 
-  url: 'https://aidongcheng.com',
+  url: 'https://kb.mootlsv.com',
   baseUrl: '/',
 
   organizationName: 'zzz7491',
