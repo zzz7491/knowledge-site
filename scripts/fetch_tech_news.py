@@ -10,10 +10,10 @@ import re
 from pathlib import Path
 from urllib.parse import urlparse
 
-# 配置 - 阿里云百炼平台
-AI_API_URL = "https://ws-n29fiz9196oqjon0.cn-beijing.maas.aliyuncs.com/api/v1/services/aigc/text-generation/generation"
-AI_MODEL = "qwen-turbo"
-DASHSCOPE_API_KEY = os.environ.get('DASHSCOPE_API_KEY', '')
+# 配置 - OpenRouter（与 dlt-assistant 项目共用同一 AI 通道，密钥经仓库 Secrets 注入）
+AI_API_URL = "https://openrouter.ai/api/v1/chat/completions"
+AI_MODEL = os.environ.get('OPENROUTER_MODEL', 'deepseek/deepseek-chat')
+OPENROUTER_API_KEY = os.environ.get('OPENROUTER_API_KEY', '')
 
 HACKER_NEWS_URL = "https://hacker-news.firebaseio.com/v0/topstories.json"
 HN_ITEM_URL = "https://hacker-news.firebaseio.com/v0/item/{}.json"
@@ -117,12 +117,12 @@ def fetch_article_content(url):
     return ''
 
 def ai_translate_and_summarize(articles):
-    """调用阿里云百炼平台翻译并生成中文摘要"""
+    """调用 OpenRouter AI 翻译并生成中文摘要"""
     if not articles:
         return articles
     
-    if not DASHSCOPE_API_KEY:
-        print("❌ 错误: 未设置 DASHSCOPE_API_KEY 环境变量")
+    if not OPENROUTER_API_KEY:
+        print("❌ 错误: 未设置 OPENROUTER_API_KEY 环境变量")
         return articles
     
     prompt = """你是一个资深科技编辑，精通中英文。请将以下科技资讯翻译成通顺流畅的中文，并生成专业的中文摘要。
@@ -170,21 +170,17 @@ def ai_translate_and_summarize(articles):
     try:
         headers = {
             'Content-Type': 'application/json',
-            'Authorization': f'Bearer {DASHSCOPE_API_KEY}'
+            'Authorization': f'Bearer {OPENROUTER_API_KEY}'
         }
         
         payload = {
             "model": AI_MODEL,
-            "input": {
-                "messages": [
-                    {"role": "system", "content": "你是一个专业的科技编辑，擅长中英互译和科技内容摘要。只输出中文，确保翻译准确、表达流畅。"},
-                    {"role": "user", "content": prompt}
-                ]
-            },
-            "parameters": {
-                "temperature": 0.3,
-                "max_tokens": 4000
-            }
+            "messages": [
+                {"role": "system", "content": "你是一个专业的科技编辑，擅长中英互译和科技内容摘要。只输出中文，确保翻译准确、表达流畅。"},
+                {"role": "user", "content": prompt}
+            ],
+            "temperature": 0.3,
+            "max_tokens": 4000
         }
         
         response = requests.post(
@@ -232,7 +228,7 @@ def ai_translate_and_summarize(articles):
                     elif line.startswith('关键信息') or line.startswith('关键信息:'):
                         articles[current_idx]['ai_keypoints'] = line.replace('关键信息:', '').replace('关键信息：', '').strip()
         else:
-            print(f"阿里云API调用失败: {response.status_code}")
+            print(f"OpenRouter API 调用失败: {response.status_code}")
             print(f"响应内容: {response.text}")
             
     except Exception as e:
@@ -250,7 +246,7 @@ tags: [科技, AI, 前沿, 每日更新]
 
 # 🚀 科技前沿快报 - {date_str}
 
-> 🤖 自动精选全球科技资讯，中文摘要由通义千问生成
+> 🤖 自动精选全球科技资讯，中文摘要由 AI 生成（OpenRouter）
 > 📅 每日更新 | 每6小时刷新
 
 ---
@@ -314,10 +310,10 @@ tags: [科技, AI, 前沿, 每日更新]
 
 def main():
     print("🚀 开始抓取科技资讯...")
-    print(f"🤖 AI: 阿里云通义千问 ({AI_MODEL})")
+    print(f"🤖 AI: OpenRouter ({AI_MODEL})")
     
-    if not DASHSCOPE_API_KEY:
-        print("❌ 错误: 请设置 DASHSCOPE_API_KEY 环境变量")
+    if not OPENROUTER_API_KEY:
+        print("❌ 错误: 请设置 OPENROUTER_API_KEY 环境变量")
         return
     
     all_articles = []
@@ -337,7 +333,7 @@ def main():
         print("⚠️ 没有抓取到任何文章")
         return
     
-    print(f"🧠 正在调用阿里云通义千问翻译并生成摘要 ({len(all_articles)} 篇)...")
+    print(f"🧠 正在调用 OpenRouter AI 翻译并生成摘要 ({len(all_articles)} 篇)...")
     all_articles = ai_translate_and_summarize(all_articles)
     ai_count = sum(1 for a in all_articles if a.get('ai_summary'))
     print(f"✅ AI 生成摘要: {ai_count}/{len(all_articles)} 篇")
